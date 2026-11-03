@@ -1,58 +1,102 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📝 Website To-Do List Pribadi
+**Tugas Proyek:** LKPD • XI RPL — DUO DEVELOPER  
+**Konsep:** Kontrak dulu, ngoding bareng! (BE + Swagger × FE + Mock Data)  
+**SMK PESAT • Rekayasa Perangkat Lunak**
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+## 👥 Tim Pengembang
+- **Backend Developer (BE):** [Nama BE kamu] *(Kelas: XI RPL)*
+- **Frontend Developer (FE):** [Nama FE teman kamu] *(Kelas: XI RPL)*
+- **Tanggal:** November 2026
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📌 Deskripsi Singkat
+Aplikasi To-Do List pribadi berbasis web. Pengguna dapat melakukan registrasi, login, melihat daftar tugas miliknya, menambah tugas, mengubah judul/tenggat, menandai tugas selesai (`done`) atau belum selesai (`todo`), serta menghapus tugas. Sistem ini menerapkan keamanan autentikasi menggunakan **Laravel Sanctum**, di mana setiap pengguna hanya dapat melihat dan mengelola data tugas miliknya sendiri.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🛠️ Tech Stack
+- **Backend:** Laravel 11 / 12, Laravel Sanctum (Token-based Auth), MySQL / SQLite
+- **Dokumentasi API:** L5-Swagger (OpenAPI 3.0)
+- **Frontend:** Blade Templating, JavaScript (Fetch API), CSS / Tailwind CSS
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## ⚙️ Panduan Instalasi & Menjalankan Proyek
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
+### 1. Clone Repository
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/kkeeyysshhaa02-sudo/kayca-backend_frontend.git
+cd kayca_backend_frontend
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 2. Konfigurasi Environment & Dependensi
+Salin berkas `.env.example` ke `.env`:
+```bash
+copy .env.example .env
+```
+Install dependensi PHP & buat Application Key:
+```bash
+composer install
+php artisan key:generate
+```
 
-## Contributing
+### 3. Migrasi Database
+Pastikan MySQL di Laragon / XAMPP sudah berjalan, lalu jalankan:
+```bash
+php artisan migrate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4. Generate Dokumentasi Swagger
+```bash
+php artisan l5-swagger:generate
+```
 
-## Code of Conduct
+### 5. Jalankan Server
+```bash
+php artisan serve
+```
+- Akses Aplikasi Web: `http://localhost:8000`
+- Akses Dokumentasi Swagger UI: `http://localhost:8000/api/documentation`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 📑 Kontrak API & Dokumentasi
+- Dokumen kontrak API tertulis lengkap: [`docs/kontrak-api.md`](docs/kontrak-api.md)
+- Spesifikasi OpenAPI JSON: [`storage/api-docs/api-docs.json`](storage/api-docs/api-docs.json)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Ringkasan Endpoint API
+| Method | Endpoint | Keterangan | Autentikasi |
+|---|---|---|---|
+| `POST` | `/api/register` | Mendaftarkan akun baru | Tidak |
+| `POST` | `/api/login` | Masuk & mendapatkan Bearer Token | Tidak |
+| `GET` | `/api/user` | Mendapatkan profil user yang sedang login | Bearer Token |
+| `POST` | `/api/logout` | Mencabut token (keluar) | Bearer Token |
+| `GET` | `/api/tasks` | Menampilkan seluruh tugas milik user login | Bearer Token |
+| `POST` | `/api/tasks` | Menambahkan tugas baru | Bearer Token |
+| `GET` | `/api/tasks/{id}` | Mengambil detail satu tugas | Bearer Token |
+| `PUT` | `/api/tasks/{id}` | Memperbarui data tugas lengkap | Bearer Token |
+| `PATCH` | `/api/tasks/{id}/status` | Mengubah cepat status (`todo` / `done`) | Bearer Token |
+| `DELETE` | `/api/tasks/{id}` | Menghapus tugas | Bearer Token |
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 💡 Pertanyaan Evaluasi LKPD (Tahap 04)
+
+### 1. Apa perbedaan Mock Data dan API Nyata?
+- **Mock Data:** Data tiruan/dummy berformat JSON statis yang disiapkan Frontend berdasarkan kontrak API di awal. Mock data memungkinkan tim Frontend mulai mendesain tampilan dan logika fetch tanpa harus menunggu Backend selesai koding atau database terpasang.
+- **API Nyata:** Layanan backend aktual yang terhubung ke server logic dan basis data MySQL. API ini memproses validasi nyata, autentikasi sesi/token, serta melakukan penyimpanan permanen (Create, Read, Update, Delete).
+
+### 2. Perbedaan kontrak apa yang kalian temukan selama integrasi, dan bagaimana cara menyelesaikannya?
+- **Temuan:** Di awal sempat ada perbedaan penggunaan istilah status tugas (antara `pending/completed` vs `todo/done`) dan penamaan field deadline (`due_date` vs `deadline`).
+- **Solusi:** Kedua role (BE & FE) mengacu kembali pada kesepakatan tertulis di `docs/kontrak-api.md` yang menetapkan status seragam yaitu `"todo"` dan `"done"`, serta menambahkan endpoint khusus `PATCH /api/tasks/{id}/status` agar Frontend mudah membuat toggle checkbox tanpa harus mengirim ulang seluruh data tugas.
+
+---
+
+## 🚀 Alur Kerja Kolaborasi (Git Branching)
+1. **Branch `feat/backend`:** Pengerjaan controller auth, controller task, migrasi database, dan anotasi Swagger.
+2. **Branch `feat/frontend`:** Pengerjaan halaman Blade, fetch mock data, dan integrasi API asli.
+3. **Pull Request & Review:** Kode masing-masing diajukan melalui Pull Request ke branch `main` dan direview oleh pasangan sebelum di-merge.
+
